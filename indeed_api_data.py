@@ -51,6 +51,7 @@ long_list = []
 date_list = []
 
 for p in range(0, num_results, 25):
+    print('Retrieving records from page '+ str(p/25) +' out of '+ str(len(range(0,num_results,25))) +' pages.')
     start = p
 
     xml_string = 'http://api.indeed.com/ads/apisearch?publisher=' + publisher_id + '&q=' + q +'&l=' + location +\
