@@ -62,9 +62,9 @@ for p in range(0, num_results, 25):
     job_xml = urllib2.urlopen(xml_string).read()
     job_tree = etree.HTML(job_xml)
 
-    r = min(25,num_results - p)
+    r_index = min(25,num_results - p)
 
-    for r in range(r):
+    for r in range(r_index):
         try:
             result_tag = job_tree.xpath('//result')[r]
         except:
