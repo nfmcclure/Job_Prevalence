@@ -8,6 +8,8 @@
 
 import urllib2
 from lxml import etree
+import numpy as np
+import pandas as pd
 
 ######
 # Define XML Parameters
@@ -105,5 +107,22 @@ for p in range(0, num_results, 25):
         except:
             date_list.append('')
 
-print(lat_list)
-print(date_list)
+job_frame = pd.DataFrame({'city': city_list, 'state': state_list, 'snippet': snippet_list,
+                          'latitude': lat_list, 'longitude': long_list, 'date': date_list})
+
+######
+# Function to save DataFrame to sqlite-db
+def saveFrameToTable(dataFrame, tableName, sqldbName, dbFolder, e_option):
+    if not os.path.exists(dbFolder):
+        os.makedirs(dbFolder)
+    conn = sqlite3.connect(dbFolder + sqldbName + '.db')
+    print("Database created/opened successfully.")
+    dataFrame.to_sql(tableName, conn, flavor='sqlite', if_exists=e_option)
+    conn.close()
+
+data_folder = wd + '\\data\\'
+
+saveFrameToTable(job_frame, 'job_data', 'job_db', data_folder, 'replace')
+output_file = data_folder + 'job_data.csv'
+
+job_frame.to_csv(output_file)
