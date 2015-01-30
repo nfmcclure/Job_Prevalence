@@ -6,10 +6,20 @@
 ##
 ##--------------------------------------------------
 
+# Python 2.7:
 import urllib2
 from lxml import etree
 import numpy as np
 import pandas as pd
+import sqlite3
+import os
+
+# Python 3.4:
+# import urllib
+# import urllib.request
+
+wd = os.getcwd() # Edit this for current path
+os.chdir(wd)
 
 ######
 # Define XML Parameters
@@ -39,8 +49,13 @@ xml_string = 'http://api.indeed.com/ads/apisearch?publisher=' + publisher_id + '
              '&limit=' + limit + '&fromage=' + fromage + '&filter=' + filter + '&latlong=' + latlong +\
              '&co=' + co + '&chnl=' + chnl + '&userip=' + userip + '&useragent=' + useragent + '&v=' + v
 
+# Python 2.7:
 job_xml = urllib2.urlopen(xml_string).read()
 job_tree = etree.HTML(job_xml)
+
+# Python 3.4:
+# job_xml = urllib.request.urlopen(xml_string).read()
+# job_tree = etree.HTML(job_xml)
 
 [num_results] = job_tree.xpath('//totalresults/text()')
 num_results = min(int(num_results), int(limit))
@@ -61,7 +76,12 @@ for p in range(0, num_results, 25):
              '&limit=' + limit + '&fromage=' + fromage + '&filter=' + filter + '&latlong=' + latlong +\
              '&co=' + co + '&chnl=' + chnl + '&userip=' + userip + '&useragent=' + useragent + '&v=' + v
 
+    # Python 2.7:
     job_xml = urllib2.urlopen(xml_string).read()
+    
+    # Python 3.4:
+    # job_xml = urllib.request.urlopen(xml_string).read()
+    
     job_tree = etree.HTML(job_xml)
 
     r_index = min(25,num_results - p)
