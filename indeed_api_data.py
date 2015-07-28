@@ -23,7 +23,7 @@ os.chdir(wd)
 
 ######
 # Define XML Parameters
-publisher_id = '6574468093927382'
+publisher_id = 'Your Key Here'
 v = '2'
 format = 'json'
 callback = ''
